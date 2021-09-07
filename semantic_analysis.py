@@ -48,7 +48,9 @@ class SynsetSemanticAnalyser():
             for (s1, s2), ancestor in lcas:
                 if ancestor is None:
                     continue
-                path_len = nx.shortest_path_length(self._G, source=ancestor, target=s1) + nx.shortest_path_length(self._G, source=ancestor, target=s2)
+                path_len = nx.shortest_path_length(self._G, source=ancestor, target=s1) + \
+                            nx.shortest_path_length(self._G, source=ancestor, target=s2)
+
                 if lowest == None or lowest > path_len:
                     lowest = path_len
             if lowest != None:
