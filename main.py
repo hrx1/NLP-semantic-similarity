@@ -1,6 +1,7 @@
 import json
 from semantic_analysis import SynsetSemanticAnalyser
 from prettytable import PrettyTable
+import sys
 
 json_path = './crowordnet/cro_wn30_2012-12-13.json'
 
@@ -12,7 +13,11 @@ print("Example: ")
 print(EXAMPLES)
 print("Press enter if you wish to use example stated above.")
 
-words = input()
+if len(sys.argv) == 2 and sys.argv[1] != 'time_test':
+    words = input()
+else:
+    words = []
+    print("Time testing... Using words from example.")
 if len(words) == 0:
     words = EXAMPLES
 words = words.split(",")
