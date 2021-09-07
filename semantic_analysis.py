@@ -7,17 +7,19 @@ import semanticsims
 class SynsetSemanticAnalyser():
     
     def __init__(self, synsets : dict) -> None:
+        """dict: synset_id to synset info"""
         self._synsets = synsets
+        """dict: Word to list of synset_ids"""
         self._word_to_synsets = SynsetSemanticAnalyser._create_word_to_synsets_dict(synsets)
         
         # Preparing for semantic field analysis
         # Creating graph in which words are connected from hypo to hypernymy
         G = nx.DiGraph()
 
-        for word, word_synsets in self._synsets.items():
-            if Relation.HYPERNYM in word_synsets.relations:
-                for rel in word_synsets.relations[Relation.HYPERNYM]:
-                    G.add_edge(word, rel)
+        for synset_id, synset_info in self._synsets.items():
+            if Relation.HYPERNYM in synset_info.relations:
+                for related_synset_id in synset_info.relations[Relation.HYPERNYM]:
+                    G.add_edge(synset_id, related_synset_id)
 
         self._G = G.reverse()
         self._G_max_path = nx.dag_longest_path_length(G)
@@ -43,6 +45,7 @@ class SynsetSemanticAnalyser():
                 ancestor = nx.lowest_common_ancestor(self._G, s1, s2)
                 if ancestor is None:
                     continue
+                print(ancestor)
                 # print(nx.shortest_path_length(G, source=s1, target=ancestor))
                 # print("ANC: ", ancestor)
                 # TODO this is bottleneck and can be improved
