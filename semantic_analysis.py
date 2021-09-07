@@ -36,6 +36,7 @@ class SynsetSemanticAnalyser():
         words = clean_words
         print(words)
 
+        # TODO ovo je sigurno bottleneck
         for w1, w2 in itertools.combinations(words, 2):
             sinsets1 = self._word_to_synsets[w1]
             sinsets2 = self._word_to_synsets[w2]
