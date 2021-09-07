@@ -41,14 +41,12 @@ class SynsetSemanticAnalyser():
             sinsets2 = self._word_to_synsets[w2]
             
             lowest = None
-            for s1, s2 in itertools.product(sinsets1, sinsets2):
-                ancestor = nx.lowest_common_ancestor(self._G, s1, s2)
+
+            lcas = nx.all_pairs_lowest_common_ancestor(self._G, pairs=itertools.product(sinsets1, sinsets2))
+
+            for (s1, s2), ancestor in lcas:
                 if ancestor is None:
                     continue
-                print(ancestor)
-                # print(nx.shortest_path_length(G, source=s1, target=ancestor))
-                # print("ANC: ", ancestor)
-                # TODO this is bottleneck and can be improved
                 path_len = nx.shortest_path_length(self._G, source=ancestor, target=s1) + nx.shortest_path_length(self._G, source=ancestor, target=s2)
                 if lowest == None or lowest > path_len:
                     lowest = path_len
