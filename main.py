@@ -18,6 +18,7 @@ if len(sys.argv) == 2 and sys.argv[1] != 'time_test':
 else:
     words = []
     print("Time testing... Using words from example.")
+
 if len(words) == 0:
     words = EXAMPLES
 words = words.split(",")
